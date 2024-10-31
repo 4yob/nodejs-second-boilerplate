@@ -26,7 +26,7 @@ usuariosRoutes.post("/", (req, res) => {
 
 // Rota para buscar um usuário pelo ID
 usuariosRoutes.get("/:id", (req, res) => {
-  const { id } = req.params
+  const { id } = req.params;
 
   const user = usersList.getUserById(id)
 
@@ -44,6 +44,21 @@ usuariosRoutes.get("/:id", (req, res) => {
 
 // Rota para editar um usuário
 usuariosRoutes.put("/:id", (req, res) => {
+  const { id } = req.params;
+  const { name, email, password } = req.body;
+
+  const user = usersList.updateUser(id, name, email, password);
+
+  if (!user) {
+    return res.status(404).json({
+      message: `Usuário de ID ${id} não encontrado!`,
+    });
+  }
+
+  return res.status(200).json({
+    message: `Usuário de ID ${id} atualizado com sucesso!`,
+    user,
+  });
 
 });
 
