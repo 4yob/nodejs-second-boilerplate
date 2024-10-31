@@ -15,13 +15,41 @@ usuariosRoutes.get("/", (req, res) => {
 
 // Rota para criar um novo usuário
 usuariosRoutes.post("/", (req, res) => {
-  const { nome, email, password } = req.body
+  const { name, email, password } = req.body
 
-  const user = usersList.addUser(nome, email, password);
+  const user = usersList.addUser(name, email, password);
   return res.status(201).json({
     message: "Usuário criado com sucesso!",
     user,
+  });
+});
+
+// Rota para buscar um usuário pelo ID
+usuariosRoutes.get("/:id", (req, res) => {
+  const { id } = req.params
+
+  const user = usersList.getUserById(id)
+
+  if (!user) {
+    return res.status(404).json({
+      message: `Usuário de ID ${id} não identificado!`
+    })
+  }
+
+  return res.status(200).json({
+    message: `Usuário de ID ${id} identificado!`,
+    user,
   })
-})
+});
+
+// Rota para editar um usuário
+usuariosRoutes.put("/:id", (req, res) => {
+
+});
+
+// Rota para deletar um usuário
+usuariosRoutes.delete("/:id", (req, res) => {
+
+});
 
 export default usuariosRoutes;
